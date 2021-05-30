@@ -33,43 +33,83 @@ Next, deploy a token you will use for rewards:
 ```python
 >>> reward_token = Token.deploy("reward token", "RWRD", 18, 1e21, {'from': accounts[0]})
 
-Transaction sent: 0x4a61edfaaa8ba55573603abd35403cf41291eca443c983f85de06e0b119da377
-  Gas price: 0.0 gwei   Gas limit: 12000000
-  Token.constructor confirmed - Block: 1   Gas used: 521513 (4.35%)
-  Token deployed at: 0xd495633B90a237de510B4375c442C0469D3C161C
+Transaction sent: 0x5d4a12cb6dd3eae0f60db232c4fe72d7f50490449bd3bd1a08941a2d46eb14af
+  Gas price: 0.0 gwei   Gas limit: 12000000   Nonce: 0
+  Token.constructor confirmed - Block: 1   Gas used: 482685 (4.02%)
+  Token deployed at: 0x3194cBDC3dbcd3E11a07892e7bA5c3394048Cc87
 ```
 
 Next, deploy a token you will use for staking. 
 
 ```python
 >>> stake_token = Token.deploy("stake token", "STAKE", 18, 1e21, {'from': accounts[0]})
+
+Transaction sent: 0xbb5fb7f74d6425a7b726e3d684d03b77317dedc15ee382225ffc6467e015aaa3
+  Gas price: 0.0 gwei   Gas limit: 12000000   Nonce: 1
+  Token.constructor confirmed - Block: 2   Gas used: 482685 (4.02%)
+  Token deployed at: 0x602C71e4DAC47a042Ee7f46E0aee17F94A3bA0B6
 ```
 
 You now have 2 token contracts deployed, with a balance of `1e21` assigned to `accounts[0]`:
 
 ```python
 >>> reward_token
-<Token Contract '0xd495633B90a237de510B4375c442C0469D3C161C'>
+<Token Contract '0x3194cBDC3dbcd3E11a07892e7bA5c3394048Cc87'>
+
+>>> stake_token
+<Token Contract '0x602C71e4DAC47a042Ee7f46E0aee17F94A3bA0B6'>
 
 >>> reward_token.balanceOf(accounts[0])
 1000000000000000000000
 
->>> stake_token
-<Token Contract 'something else'>
-
 >>> stake_token.balanceOf(accounts[0])
 1000000000000000000000
 
->>> staking = Staking.deploy(stake_token,reward_token,86400) # one token per day
+>>> staking = Staking.deploy(stake_token,reward_token,86400, {'from': accounts[0]}) # one token per day
+
+Transaction sent: 0xdda9cb1c85c27522cce255d65825af4c3a828fa9f17c97b999c24139366cbe1c
+  Gas price: 0.0 gwei   Gas limit: 12000000   Nonce: 2
+  Staking.constructor confirmed - Block: 3   Gas used: 630353 (5.25%)
+  Staking deployed at: 0xE7eD6747FaC5360f88a2EFC03E00d25789F69291
 
 >>> reward_token.transfer(staking, reward_token.balanceOf(accounts[0]), {'from': accounts[0]})
-Transaction sent: 0xb94b219148501a269020158320d543946a4e7b9fac294b17164252a13dce9534
-  Gas price: 0.0 gwei   Gas limit: 12000000
-  Token.transfer confirmed - Block: 2   Gas used: 51668 (0.43%)
+Transaction sent: 0x6fd223cf440e6f6e629785c2bdd6e611ea3adef4118971c0b9d94b0d680ca044
+  Gas price: 0.0 gwei   Gas limit: 12000000   Nonce: 3
+  Token.transfer confirmed - Block: 4   Gas used: 36552 (0.30%)
 
-<Transaction '0xb94b219148501a269020158320d543946a4e7b9fac294b17164252a13dce9534'>
+<Transaction '0x6fd223cf440e6f6e629785c2bdd6e611ea3adef4118971c0b9d94b0d680ca044'>
+
+>>> stake_token.approve(staking,stake_token.balanceOf(accounts[0]),{'from':accounts[0]})
+
+Transaction sent: 0x03717f6837e1b8879ad79f3ea5af3ee000368f4de88fa99357074b39ecd447b5
+  Gas price: 0.0 gwei   Gas limit: 12000000   Nonce: 5
+  Token.approve confirmed - Block: 6   Gas used: 43770 (0.36%)
+
+<Transaction '0x03717f6837e1b8879ad79f3ea5af3ee000368f4de88fa99357074b39ecd447b5'>
 
 >>> staking.stake(stake_token.balanceOf(accounts[0]),{'from':accounts[0]})
+
+Transaction sent: 0x8cdb069bc6e8d4cd4235804a2f12052183c0a69e01b56caaf3ab14c95b878ad0
+  Gas price: 0.0 gwei   Gas limit: 12000000   Nonce: 6
+  Staking.stake confirmed - Block: 7   Gas used: 77903 (0.65%)
+
+<Transaction '0x8cdb069bc6e8d4cd4235804a2f12052183c0a69e01b56caaf3ab14c95b878ad0'>
+
+>>> staking.staked_balance(accounts[0])
+1000000000000000000000
+
+>>> chain.sleep(86400)
+
+>>> chain.mine()
+
+>>> staking.earned(accounts[0]) * 10 ** -18
+1001.2037037037037
+```
+
+Now you can get your ABI. 
+
+```python
+>>> staking.abi
 ```
 
 ## Testing
