@@ -8,6 +8,8 @@ For [Solidity](https://github.com/ethereum/solidity), check out [`token-mix`](ht
 
 1. [Install Brownie](https://eth-brownie.readthedocs.io/en/stable/install.html), if you haven't already.
 
+YOU WILL NOT BE ABLE TO USE THE MIX UNTIL THIS IS MERGED TO THE MIXES. PLEASE CLONE THIS GITHUB IN THE MEANTIME. 
+
 2. Download the mix.
 
     ```bash
