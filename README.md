@@ -41,7 +41,9 @@ Transaction sent: 0x4a61edfaaa8ba55573603abd35403cf41291eca443c983f85de06e0b119d
 
 Next, deploy a token you will use for staking. 
 
+```python
 >>> stake_token = Token.deploy("stake token", "STAKE", 18, 1e21, {'from': accounts[0]})
+```
 
 You now have 2 token contracts deployed, with a balance of `1e21` assigned to `accounts[0]`:
 
