@@ -1,6 +1,6 @@
 # vyper-token-mix
 
-A bare-bones implementation of the Ethereum [ERC-20 standard](https://eips.ethereum.org/EIPS/eip-20), written in [Vyper](https://github.com/vyperlang/vyper).
+A bare-bones implementation of the Ethereum [ERC-20 standard](https://eips.ethereum.org/EIPS/eip-20), written in [Vyper](https://github.com/vyperlang/vyper) & a barebones staking contract.
 
 For [Solidity](https://github.com/ethereum/solidity), check out [`token-mix`](https://github.com/brownie-mix/token-mix).
 
