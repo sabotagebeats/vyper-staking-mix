@@ -1,5 +1,11 @@
 # @version ^0.2.0
 
+"""
+@title Bare-bones Staking implementation
+@notice uses the ERC-20 token standard as defined at
+        https://eips.ethereum.org/EIPS/eip-20
+"""
+
 from vyper.interfaces import ERC20
 
 ## Type assignments
