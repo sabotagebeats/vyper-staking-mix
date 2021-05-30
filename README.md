@@ -16,7 +16,9 @@ For [Solidity](https://github.com/ethereum/solidity), check out [`token-mix`](ht
 
 ## Basic Use
 
-This mix provides a [simple template](contracts/Token.vy) upon which you can build your own token, as well as unit tests providing 100% coverage for core ERC20 functionality.
+This mix provides a [basic staking contract](contracts.Staking.vy) and a [simple token template](contracts/Token.vy) upon which you can build your own staking contracts and tokens.
+
+Unit tests are in progress - "unit tests providing 100% coverage for core ERC20 functionality."
 
 To interact with a deployed contract in a local environment, start by opening the console:
 
@@ -24,10 +26,10 @@ To interact with a deployed contract in a local environment, start by opening th
 brownie console
 ```
 
-Next, deploy a test token:
+Next, deploy a token you will use for rewards:
 
 ```python
->>> token = Token.deploy("Test Token", "TST", 18, 1e21, {'from': accounts[0]})
+>>> reward_token = Token.deploy("reward token", "RWRD", 18, 1e21, {'from': accounts[0]})
 
 Transaction sent: 0x4a61edfaaa8ba55573603abd35403cf41291eca443c983f85de06e0b119da377
   Gas price: 0.0 gwei   Gas limit: 12000000
@@ -35,24 +37,40 @@ Transaction sent: 0x4a61edfaaa8ba55573603abd35403cf41291eca443c983f85de06e0b119d
   Token deployed at: 0xd495633B90a237de510B4375c442C0469D3C161C
 ```
 
-You now have a token contract deployed, with a balance of `1e21` assigned to `accounts[0]`:
+Next, deploy a token you will use for staking. 
+
+>>> stake_token = Token.deploy("stake token", "STAKE", 18, 1e21, {'from': accounts[0]})
+
+You now have 2 token contracts deployed, with a balance of `1e21` assigned to `accounts[0]`:
 
 ```python
->>> token
+>>> reward_token
 <Token Contract '0xd495633B90a237de510B4375c442C0469D3C161C'>
 
->>> token.balanceOf(accounts[0])
+>>> reward_token.balanceOf(accounts[0])
 1000000000000000000000
 
->>> token.transfer(accounts[1], 1e18, {'from': accounts[0]})
+>>> stake_token
+<Token Contract 'something else'>
+
+>>> stake_token.balanceOf(accounts[0])
+1000000000000000000000
+
+>>> staking = Staking.deploy(stake_token,reward_token,86400) # one token per day
+
+>>> reward_token.transfer(staking, reward_token.balanceOf(accounts[0]), {'from': accounts[0]})
 Transaction sent: 0xb94b219148501a269020158320d543946a4e7b9fac294b17164252a13dce9534
   Gas price: 0.0 gwei   Gas limit: 12000000
   Token.transfer confirmed - Block: 2   Gas used: 51668 (0.43%)
 
 <Transaction '0xb94b219148501a269020158320d543946a4e7b9fac294b17164252a13dce9534'>
+
+>>> staking.stake(stake_token.balanceOf(accounts[0]),{'from':accounts[0]})
 ```
 
 ## Testing
+
+TESTING IS STILL IN PROGRESS
 
 To run the tests:
 
