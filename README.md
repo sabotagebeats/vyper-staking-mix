@@ -31,7 +31,7 @@ brownie console
 Next, deploy a token you will use for rewards:
 
 ```python
->>> reward_token = Token.deploy("reward token", "RWRD", 18, 1e21, {'from': accounts[0]})
+>>> reward_token = Token.deploy("reward token", "RWRD", 18, 1e28, {'from': accounts[0]})
 
 Transaction sent: 0x5d4a12cb6dd3eae0f60db232c4fe72d7f50490449bd3bd1a08941a2d46eb14af
   Gas price: 0.0 gwei   Gas limit: 12000000   Nonce: 0
@@ -50,7 +50,7 @@ Transaction sent: 0xbb5fb7f74d6425a7b726e3d684d03b77317dedc15ee382225ffc6467e015
   Token deployed at: 0x602C71e4DAC47a042Ee7f46E0aee17F94A3bA0B6
 ```
 
-You now have 2 token contracts deployed, with a balance of `1e21` assigned to `accounts[0]`:
+You now have 2 token contracts deployed, one with a balance of `1e28` and one with a balance of `1e21` assigned to `accounts[0]`:
 
 ```python
 >>> reward_token
@@ -60,12 +60,12 @@ You now have 2 token contracts deployed, with a balance of `1e21` assigned to `a
 <Token Contract '0x602C71e4DAC47a042Ee7f46E0aee17F94A3bA0B6'>
 
 >>> reward_token.balanceOf(accounts[0])
-1000000000000000000000
+10000000000000000000000000000
 
 >>> stake_token.balanceOf(accounts[0])
 1000000000000000000000
 
->>> staking = Staking.deploy(stake_token,reward_token,86400, {'from': accounts[0]}) # one token per day
+>>> staking = Staking.deploy(stake_token,reward_token,60, {'from': accounts[0]}) # one token per minute per staked token
 
 Transaction sent: 0xdda9cb1c85c27522cce255d65825af4c3a828fa9f17c97b999c24139366cbe1c
   Gas price: 0.0 gwei   Gas limit: 12000000   Nonce: 2
@@ -103,7 +103,19 @@ Transaction sent: 0x8cdb069bc6e8d4cd4235804a2f12052183c0a69e01b56caaf3ab14c95b87
 >>> chain.mine()
 
 >>> staking.earned(accounts[0]) * 10 ** -18
-1001.2037037037037
+1440366.6666666667
+
+>>> staking.redeem({'from':accounts[0]})
+
+Transaction sent: 0x80b7859d55b96587e97c241783b2d18c05df731858adf3e4b300c0f949080a2d
+  Gas price: 0.0 gwei   Gas limit: 12000000   Nonce: 6
+  Staking.redeem confirmed - Block: 8   Gas used: 69244 (0.58%)
+
+<Transaction '0x80b7859d55b96587e97c241783b2d18c05df731858adf3e4b300c0f949080a2d'>
+
+>>> reward_token.balanceOf(accounts[0])
+1440950000000000000000000
+
 ```
 
 Now you can get your ABI. 
