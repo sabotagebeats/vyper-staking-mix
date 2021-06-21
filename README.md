@@ -13,7 +13,7 @@ YOU WILL NOT BE ABLE TO USE THE MIX UNTIL THIS IS MERGED TO THE MIXES. PLEASE CL
 2. Download the mix.
 
     ```bash
-    brownie bake vyper-token
+    brownie bake vyper-staking
     ```
 
 ## Basic Use
