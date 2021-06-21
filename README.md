@@ -18,7 +18,7 @@ YOU WILL NOT BE ABLE TO USE THE MIX UNTIL THIS IS MERGED TO THE MIXES. PLEASE CL
 
 ## Basic Use
 
-This mix provides a [basic staking contract](contracts.Staking.vy) and a [simple token template](contracts/Token.vy) upon which you can build your own staking contracts and tokens.
+This mix provides a [basic staking contract](contracts/Staking.vy) and a [simple token template](contracts/Token.vy) upon which you can build your own staking contracts and tokens.
 
 Unit tests are in progress - "unit tests providing 100% coverage for core ERC20 functionality."
 
